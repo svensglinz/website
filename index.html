@@ -1,7 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!--also need to get back to the starting page if we click on the name !!!-->
+<!--ideas for the website: 
+when you hover over buttons, smoke or code ocmes out 
+three panes -- single pages ,can snap -> fullpage.js can be used 
+then for about me -> more goes to separate cv page 
+projects -<> horizontal swipe with most important ones 
+more goes ot project overview 
+
+do cusotmizable rmd files for the r code stuff 
+can do a post about the us elections 
+and one about thesis where I describe the margin model (without subsampling) and 
+around the top bottons can do shades or something that it looks smoother 
+without parametrization of the factors used by eurex etc...-->
 
 <head>
     <meta charset="UTF-8" />
@@ -11,167 +22,85 @@
     <!--CSS Styles -->
     <link rel="stylesheet" href="assets/css/styles.css" />
 
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png" />
+    <!-- add mathjax support-->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-    <!-- Animate CSS CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <!--add code highlighting (prism)-->
+    <link href="assets/css/prism.css" rel="stylesheet" />
+    <script src="assets/js/prism.js"></script>
+
     <title>Sven Glinz</title>
 </head>
+<!--<div class="background"><img src="website_backround.jpg"></div> -->
 
-<body>
-    <!-- Navbar -->
+<!--overflow hidden - navgation bar should change into a dropdown menu if witdh is not wide enough!!! see ex. page-->
+
+<body style="overflow: hidden;">
     <nav>
-        <h1>SVEN GLINZ</h1>
+        <h1 id="name">SVEN GLINZ</h1>
         <ul class="navigation">
-            <li><a href="index/about.html" class="nav-link">About</a></li>
-            <li><a href="index/skills.html" class="nav-link">Skills</a></li>
-            <li><a href="projects.html" class="nav-link">Projects</a></li>
+            <li><a href="#about" class="nav-link">Home</a></li>
+            <li><a href="#skills" class="nav-link">About</a></li>
+            <li><a href="#projects" class="nav-link">Projects</a></li>
             <li><a href="#contact" class="nav-link">Contact</a></li>
-            <li><a href="#CV" class="nav-link">CV</a></li> <!--click on here should download CV in pdf format!-->
         </ul>
-        <button class="burger-menu" id="burger-menu">
-            <ion-icon class="bars" name="menu-outline"></ion-icon>
-        </button>
     </nav>
-
-    <!-- Hero Section -->
-    <section class="hero" id="about">
-        <img src="assets/images/wfh_1.svg" alt="jane-doe" loading="lazy" class="hero-img" />
-        <div class="bio animate__animated animate__shakeX">
-            <h2 class="bio-title">About Me</h2>
-            <p class="bio-text">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia sed
-                dolorem fugit sapiente porro veniam pariatur dolore nostrum delectus
-                inventore tempore minus nemo, iste ullam illo laboriosam maiores
-                repudiandae quos!
-            </p>
+    <div class="social-media-bar">
+        <div class="verticalLine-one"> </div>
+        <div class="social-media">
+            <ul>
+                <li><a href="https://github.com/svensglinz/" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="64px"
+                            height="64px" viewBox="0 0 64 64" version="1.1">
+                            <path
+                                d="M 32 2 C 15.433594 2 2 15.433594 2 32 C 2 48.566406 15.433594 62 32 62 C 48.566406 62 62 48.566406 62 32 C 62 15.433594 48.566406 2 32 2 Z M 58 32 C 58 32.003906 58 32.003906 58 32.011719 C 58 43.886719 50.039062 53.902344 39.15625 57.011719 L 38.972656 57.054688 L 38.972656 47.328125 C 38.972656 45.019531 38.355469 43.332031 37.117188 42.261719 C 38.492188 42.121094 39.738281 41.894531 40.945312 41.582031 L 40.773438 41.617188 C 42.050781 41.261719 43.164062 40.785156 44.199219 40.1875 L 44.128906 40.226562 C 45.261719 39.601562 46.21875 38.8125 47.007812 37.871094 L 47.019531 37.851562 C 47.792969 36.914062 48.425781 35.664062 48.910156 34.105469 C 49.398438 32.550781 49.644531 30.757812 49.644531 28.734375 C 49.644531 25.859375 48.703125 23.40625 46.824219 21.382812 C 47.703125 19.21875 47.609375 16.792969 46.539062 14.105469 C 45.871094 13.890625 44.910156 14.019531 43.648438 14.496094 C 42.382812 14.964844 41.300781 15.492188 40.28125 16.113281 L 40.367188 16.066406 L 39.007812 16.921875 C 36.953125 16.332031 34.59375 15.996094 32.15625 15.996094 C 29.714844 15.996094 27.355469 16.332031 25.121094 16.964844 L 25.300781 16.921875 C 23.726562 13.917969 19.738281 13.726562 17.734375 14.105469 C 16.402344 16.230469 16.5625 19.582031 17.484375 21.382812 C 15.605469 23.40625 14.667969 25.859375 14.667969 28.734375 C 14.667969 30.757812 14.910156 32.542969 15.398438 34.089844 C 15.882812 35.632812 16.507812 36.882812 17.273438 37.835938 C 18.0625 38.800781 19.011719 39.601562 20.097656 40.199219 L 20.148438 40.222656 C 21.109375 40.785156 22.222656 41.261719 23.398438 41.59375 L 23.5 41.617188 C 24.535156 41.894531 25.78125 42.121094 27.054688 42.25 L 27.15625 42.257812 C 26.207031 43.117188 25.625 44.339844 25.40625 45.9375 C 24.945312 46.160156 24.410156 46.34375 23.847656 46.464844 L 23.800781 46.472656 C 23.230469 46.585938 22.574219 46.652344 21.90625 46.652344 C 21.859375 46.652344 21.8125 46.652344 21.761719 46.652344 L 21.769531 46.652344 C 20.984375 46.652344 20.207031 46.394531 19.433594 45.882812 C 18.660156 45.371094 18 44.625 17.449219 43.652344 C 17.007812 42.902344 16.429688 42.28125 15.738281 41.808594 L 15.71875 41.792969 C 15.019531 41.316406 14.429688 41.03125 13.953125 40.9375 L 13.632812 40.867188 C 13.578125 40.851562 13.515625 40.84375 13.449219 40.84375 C 13.128906 40.84375 12.851562 41.027344 12.71875 41.289062 L 12.714844 41.296875 L 12.671875 41.378906 C 12.613281 41.488281 12.582031 41.617188 12.582031 41.757812 C 12.582031 42.089844 12.777344 42.375 13.058594 42.507812 L 13.0625 42.507812 C 13.585938 42.746094 14.105469 43.199219 14.617188 43.867188 C 15.039062 44.394531 15.414062 44.992188 15.71875 45.632812 L 15.742188 45.683594 L 16.097656 46.507812 C 16.398438 47.402344 16.945312 48.152344 17.660156 48.691406 L 17.667969 48.703125 C 18.335938 49.222656 19.144531 49.601562 20.027344 49.765625 L 20.0625 49.769531 C 20.796875 49.914062 21.652344 50.003906 22.527344 50.019531 L 22.542969 50.019531 C 22.640625 50.023438 22.757812 50.027344 22.875 50.027344 C 23.457031 50.027344 24.027344 49.980469 24.582031 49.886719 L 24.519531 49.894531 L 25.339844 49.753906 C 25.339844 50.65625 25.347656 51.714844 25.359375 52.929688 C 25.367188 53.667969 25.375 55.667969 25.375 57.148438 C 14.140625 54.105469 6.011719 44.003906 6.011719 32 C 6.011719 21.296875 12.476562 12.101562 21.714844 8.109375 L 21.882812 8.046875 C 24.871094 6.746094 28.351562 5.992188 32.011719 5.992188 C 46.367188 5.992188 58.003906 17.628906 58.003906 31.984375 C 58.003906 31.992188 58.003906 32 58.003906 32.007812 Z M 58 32 " />
+                        </svg>
+                    </a>
+                </li>
+                <li><a href="mailto::sven.glinz@gmail.com">
+                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="64" viewBox="0 0 64 64">
+                            <path d="M32,0C14.327,0,0,14.327,0,32s14.327,32,32,32s32-14.327,32-32S49.673,0,32,0z M32,62C15.432,62,2,48.568,2,32.001
+                               C2,15.432,15.432,2,32,2c16.568,0,30,13.432,30,30.001C62,48.568,48.568,62,32,62z" />
+                            <path
+                                d="M46,21H18c-1.104,0-2,0.896-2,2v18c0,1.104,0.896,2,2,2h28c1.104,0,2-0.896,2-2V23C48,21.896,47.104,21,46,21z
+                                M44.205,23L32,35L19.891,23H44.205z M18,41V24.006l9.589,9.589L20.061,41H18z M22.985,41l6.081-5.927l1.58,1.579
+                               c0.781,0.781,2.047,0.781,2.829,0l1.531-1.531L41.087,41H22.985z M46,41h-1.939l-7.527-7.405L46,24.128V41z" />
+                        </svg>
+                    </a>
+                </li>
+                <li><a href="https://linkedin.com/in/svenglinz" target="_blank">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            x="0px" y="0px" width="64" height="64" viewBox="0 0 250 250"
+                            enable-background="new 0 0 240 240" xml:space="preserve">
+                            <path d="M10,10L10,10L10,10z" />
+                            <path
+                                d="M130.4,14.8c-63.8,0-115.6,51.8-115.6,115.6c0,63.8,51.8,115.6,115.6,115.6c63.8,0,115.6-51.8,115.6-115.6C246,66.6,194.2,14.8,130.4,14.8z M102.1,178.3H78.7V103h23.4V178.3z M90.3,93.8c-7.4,0-12.2-5.2-12.2-11.7c0-6.6,4.9-11.7,12.5-11.7c7.6,0,12.2,5.1,12.3,11.7C102.9,88.5,98.1,93.8,90.3,93.8z M187.6,178.3h-23.4v-41.7c0-9.7-3.4-16.3-11.9-16.3c-6.5,0-10.3,4.5-12,8.8c-0.6,1.5-0.8,3.7-0.8,5.9v43.4h-23.4V127c0-9.4-0.3-17.3-0.6-24h20.3l1.1,10.5h0.5c3.1-4.9,10.6-12.2,23.3-12.2c15.4,0,26.9,10.3,26.9,32.5L187.6,178.3L187.6,178.3z" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
         </div>
-    </section>
+    </div>
 
-    <!-- More about -->
-    <section class="more-about">
-        <h2>More About Me</h2>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis
-            nesciunt excepturi quos obcaecati incidunt voluptatem ipsam sunt ipsum,
-            autem deleniti cupiditate molestias quis unde quae totam porro dicta
-            iure animi inventore, veniam hic! Omnis nulla, delectus a voluptatibus
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur
-            nostrum dolor minus, libero delectus praesentium perferendis
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero,
-            consequuntur labore? Ea totam voluptas amet!
-        </p>
-    </section>
+    <div class="verticalLine-two"></div>
 
-    <!--CV section -->
+    <div class="start-page">
+        <h2>Sven Glinz</h2>
+        <!--this should be animated on load -> font should get bigger and alpha from 0 to 1-->
+        <p>I am Sven, .... DESCRIPTION</p>
+        <p>scroll down to explore some of my projects and check out my CV</p>
+    </div>
 
-    <!-- Skills section -->
-    <section class="skills" id="skills">
-        <h2 class="skill-header">My Top Skills</h2>
-
-        <div class="skills-wrapper">
-            <div class="first-set animate__animated animate__pulse">
-                <img src="assets/icons/icons8-html-5.svg" alt="" loading="lazy" class="icon icon-card" />
-                <img src="assets/icons/icons8-css3.svg" alt="" loading="lazy" class="icon icon-card" />
-                <img src="assets/icons/icons8-javascript.svg" alt="" loading="lazy" class="icon icon-card" />
-            </div>
-
-            <div class="second-set animate__animated animate__pulse">
-                <img src="assets/icons/icons8-bootstrap.svg" alt="" loading="lazy" class="icon icon-card" />
-                <img src="assets/icons/icons8-react-native.svg" alt="" loading="lazy" class="icon icon-card" />
-                <img src="assets/icons/icons8-git.svg" alt="" loading="lazy" class="icon icon-card" />
-            </div>
+    <footer>
+        <div class="copyright">
+            <p>© Sven Glinz 2023</p>
         </div>
-    </section>
-
-    <!-- Projects section -->
-    <section class="projects" id="projects">
-        <h2 class="projects-title">Some of my Recent Projects</h2>
-        <div class="projects-container">
-            <div class="project-container project-card">
-                <img src="assets/images/us_election_campaing.png" alt="us-election-campaign" loading="lazy"
-                    class="project-pic" />
-                <h3 class="project-title">US Election Funding</h3>
-                <p class="project-details">
-                    An in-depth analysis of transaction-level US presidential election campaign funding data
-                    in R analysing donation behavior across Gender, Party attribution and Donor Occupation.
-                    Production of compelling visualizations in ggplot revealing some interesting findings.
-                </p>
-                <a href="https://github.com/svensglinz/US_Presidential_Elections" target="_blank"
-                    class="project-link">Check it Out</a>
-            </div>
-            <div class="project-container project-card">
-                <img src="assets/images/candlestick_chart.png" alt="option-calculator" loading="lazy"
-                    class="project-pic" />
-                <h3 class="project-title">Options Calculator</h3>
-                <p class="project-details">
-                    Construction of a simple Option Class in Python that allows the user to calculate
-                    option prices with different models, the greeks or the implied volatility for different
-                    given parameters.
-                </p>
-                <!--LINK SHOULD GO TO PROJECT PAGE WHERE THERE IS A IN DEPTH DESCRPITON OF THE PROJECET AVAILABLE!-->
-                <a href="https://github.com/svensglinz/Options" target="_blank" class="project-link">Check it Out</a>
-            </div>
-            <div class="project-container project-card">
-                <img src="assets/images/greenyEarth.png" alt="greeny-earth" loading="lazy" class="project-pic" />
-                <h3 class="project-title">Greeny Earth</h3>
-                <p class="project-details">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quas
-                    ratione vel inventore labore commodi modi quos culpa aut saepe!
-                    Alias!
-                </p>
-                <a href="#" target="_blank" class="project-link">Check it Out</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact section -->
-    <section class="contact" id="contact">
-        <h2>Get In Touch With Me</h2>
-        <div class="contact-form-container">
-            <div class="contact-form">
-                <form action="https://formspree.io/f/xyylngw" method="POST">
-                    <div class="form-control">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="sender-name" placeholder="Enter Your Name"
-                            class="input-field" required />
-                    </div>
-                    <div class="form-control">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="sender-email" placeholder="Enter Your Email"
-                            class="input-field" required />
-                    </div>
-                    <div class="form-control">
-                        <label for="message">Message</label>
-                        <textarea id="message" cols="60" rows="10" placeholder="Enter Your Message" name="message"
-                            class="input-field" required></textarea>
-                    </div>
-                    <input type="submit" value="Submit" id="submit-btn" class="submit-btn" />
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- Social accounts - Fixed to the right -->
-
-    <!-- Scroll to top -->
-
-    <!-- Footer section -->
-
-    <!-- Website scripts -->
-    <script src="assets/js/app.js"></script>
-    <noscript>You need to enable JavaScript to view the full site.</noscript>
-
-    <!-- Ion icons scripts -->
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
+    </footer>
 </body>
+
+<!--should be scrollable with one scroll and then we progress
+    to the next page -> in this case from about to skills to cv etc!!! -->
 
 </html>
