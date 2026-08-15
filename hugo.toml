@@ -1,0 +1,71 @@
+baseURL = 'https://svenglinz.ch/'
+locale = 'en-us'
+title = "Sven Glinz"
+theme = 'PaperMod'
+
+enableRobotsTXT = true
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+
+pygmentsUseClasses = true
+
+[minify]
+  disableXML = true
+
+[params]
+  env = 'production'
+  title = "Sven Glinz"
+  description = "Sven Glinz"
+  keywords = []
+  defaultTheme = 'auto'
+  ShowShareButtons = false
+  ShowReadingTime = false
+  ShowCodeCopyButtons = true
+  ShowWordCount = false
+  ShowPostNavLinks = true
+  ShowRssButtonInSectionTermList = false
+  ShowToc = true
+  TocSide = true
+  comments = false
+
+  [params.homeInfoParams]
+    Title = "Hi, I'm Sven 👋"
+    Content = """
+I am a final-semester Computer Science student at ETH Zurich with a Bachelor's in Economics from the University of St. Gallen (HSG).
+I'm especially interested in systems programming, networking, financial markets and financial economics.
+
+I currently work at Siemens as a Working Student in Embedded Linux Engineering, where I mainly work with C++.
+On the finance side, I've gathered internship experience in Fixed Income Sales & Trading at Mizuho, as well as in Exchange-Traded Derivatives Risk Management at Eurex Clearing.
+
+In my free time, you can find me hacking on my Raspberry Pi cluster, which serves as my home server for a bunch of things or outside in nature.
+
+"""
+    ContactInfo = """
+📍 Zurich, Switzerland 
+
+🔑 GPG: `5CAD ADFC 52D7 43E7 0DAA  D43F 54A3 1016 1DCA 4D49`
+"""
+
+[[params.socialIcons]]
+  name = 'github'
+  url = 'https://github.com/svensglinz'
+
+[[params.socialIcons]]
+  name = 'linkedin'
+  url = 'https://linkedin.com/in/svenglinz'
+
+[[menu.main]]
+  identifier = 'cv'
+  name = 'CV'
+  url = '/cv/'
+  weight = 5
+
+[[menu.main]]
+  identifier = 'posts'
+  name = 'Posts'
+  url = '/posts/'
+  weight = 10
+
+
+

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Sven Glinz</title>
+    <link>https://svenglinz.ch/</link>
+    <description>Recent content on Sven Glinz</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 15 Aug 2026 18:00:00 +0200</lastBuildDate>
+    <atom:link href="https://svenglinz.ch/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Fast Maps for R</title>
+      <link>https://svenglinz.ch/posts/hashmap-r/</link>
+      <pubDate>Sat, 15 Aug 2026 18:00:00 +0200</pubDate>
+      <guid>https://svenglinz.ch/posts/hashmap-r/</guid>
+      <description>HashmapR - A fast, vectorized hashmap implementation for R</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://svenglinz.ch/cv/</link>
+      <pubDate>Mon, 03 Aug 2026 09:00:00 +0200</pubDate>
+      <guid>https://svenglinz.ch/cv/</guid>
+      <description>&lt;p&gt;Computer Science @ ETH Zürich · Economics @ HSG&lt;/p&gt;
+&lt;p&gt;📍 Zürich, CH · ✉️ [sven [at] svenglinz [dot] ch] &lt;br&gt;
+🔗 &lt;a href=&#34;https://github.com/svensglinz&#34;&gt;github.com/svensglinz&lt;/a&gt; · &lt;a href=&#34;https://linkedin.com/in/svenglinz&#34;&gt;linkedin.com/in/svenglinz&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;education&#34;&gt;Education&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;BSc Computer Science&lt;/strong&gt; — ETH Zürich · Zürich, CH
+&lt;em&gt;Sep 2023 – Present · Current GPA 5.51 / 6&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Thesis: &lt;em&gt;Software-Modelled Smart NIC &amp;amp; Asynchronous RPC Runtime&lt;/em&gt;, Networks &amp;amp; Operating Systems Group. [&lt;a href=&#34;../files/BA_ETH_GLINZ_SVEN.pdf&#34;&gt;here&lt;/a&gt;]&lt;/li&gt;
+&lt;li&gt;Modelled the Lauberhorn smart NIC in software (Linux kernel module + dispatch scheduler); extended the RPC runtime with a stackful-coroutine scheduler for asynchronous, nested RPC processing, and ported the Dandelion serverless platform onto it.&lt;/li&gt;
+&lt;li&gt;Relevant coursework: Algorithms &amp;amp; Data Structures, Parallel Programming, Digital Design &amp;amp; Computer Architecture, Systems Programming, Computer Networks, Embedded Systems, Compiler Design, Databases, Introduction to Machine Learning.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;BA Economics&lt;/strong&gt; — University of St. Gallen (HSG) · St. Gallen, CH &lt;br&gt;
+&lt;em&gt;Sep 2019 – Feb 2023 · Final GPA 5.75 / 6&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

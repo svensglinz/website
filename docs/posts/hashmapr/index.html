@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>hashmapR - A fast hashmap for R | Sven Glinz</title>
+<meta name="keywords" content="r, performance, data-structures">
+<meta name="description" content="A fast, vectorized hashmap implementation for R">
+<meta name="author" content="Sven">
+<link rel="canonical" href="http://localhost:1313/posts/hashmapr/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.0467f475603e8a40c75095b26a3a8ac609f1f43fb4b49d211fa8bc45e478e1d9.css" integrity="sha256-BGf0dWA&#43;ikDHUJWyajqKxgnx9D&#43;0tJ0hH6i8ReR44dk=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/hashmapr/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="http://localhost:1313/posts/hashmapr/">
+  <meta property="og:site_name" content="Sven Glinz">
+  <meta property="og:title" content="hashmapR - A fast hashmap for R">
+  <meta property="og:description" content="A fast, vectorized hashmap implementation for R">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-08-15T18:00:00+02:00">
+    <meta property="article:modified_time" content="2026-08-15T18:00:00+02:00">
+    <meta property="article:tag" content="R">
+    <meta property="article:tag" content="Performance">
+    <meta property="article:tag" content="Data-Structures">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="hashmapR - A fast hashmap for R">
+  <meta name="twitter:description" content="A fast, vectorized hashmap implementation for R">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "hashmapR - A fast hashmap for R",
+      "item": "http://localhost:1313/posts/hashmapr/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "hashmapR - A fast hashmap for R",
+  "name": "hashmapR - A fast hashmap for R",
+  "description": "A fast, vectorized hashmap implementation for R",
+  "keywords": [
+    "r", "performance", "data-structures"
+  ],
+  "articleBody": "Background R was the first programming language I learned while studying Economics, and it’s what originally drew me closer to Computer Science. When I worked as a Data Analyst, I encountered a painstakingly slow piece of code that desperately needed efficient, vectorized key-value lookups. R has plenty of vectorized functions, but I could not find a fast, vectorized hashmap.\nThis led to hashmapR, a flexible, vectorized hashmap implemented in C++.\nWhy Another Hashmap? Technically R already has some form of a hashmap (environments) but they come with significant drawbacks:\nString-only keys: Environments only accept string keys, and each string is interned into the global symbol table permanently. Managing multiple large maps can quickly fill up memory. Poor bulk operation performance: Vectorized operations in existing solutions often devolve into R loops calling C functions repeatedly — the overhead kills performance at scale. hashmapR addresses both:\nFlexible keys and values: Any serializable R object works as a key or value True vectorization: Bulk operations execute natively in C++, completely bypassing R’s interpreter How It Works Implementation hashmapR wraps a C++ std::unordered_map. Each key and value is stored in a growable R list, preventing premature garbage collection.\nHashing is type-aware:\nPrimitives (strings, integers, floats) are extracted and hashed directly via std::hash Complex objects are serialized to bytes, then hashed This flexibility means you can use virtually any R object as a key. The real performance win comes from native vectorization — bulk operations execute entirely in C++, bypassing R’s interpreter overhead completely.\nR’s copy-on-write semantics mean inserted objects aren’t deep-copied: only references are stored. This is worth remembering if you store non-COW objects.\nKey Features Type Flexibility: Use any serializable R object as a key or value Serialization: Save and restore maps easily: saveRDS(map$to_list(), \"my_map.rds\") map_restored \u003c- hashmap()$from_list(readRDS(\"my_map.rds\")) Utility Operations: Invert, query size, clear, clone, and more Getting Started Install from CRAN:\ninstall.packages(\"hashmapR\") Or the development version:\ndevtools::install_github(\"svensglinz/hashmapR\") Usage is straightforward:\nlibrary(hashmapR) # Create and populate a hashmap map \u003c- hashmap() map[\"user_1\"] \u003c- \"Alice\" map[\"user_2\"] \u003c- \"Bob\" # Single lookup map[\"user_1\"] # \"Alice\" # Vectorized bulk operations map$set(list(\"user_1\", \"user_2\"), list(\"Alice\", \"Bob\"), vectorize=TRUE) map$get(list(\"user_1\", \"user_2\"), vectorize=TRUE) # Utility functions map$contains(\"user_1\") # TRUE map$size() # 2 map$clear() # create a new, inverted map, [A -\u003e C, B -\u003e C ] ==\u003e [C -\u003e list(A, B)] map$invert(duplicates = \"stack\") Benchmarks Coming Soon\nhashmapR is available on CRAN and on GitHub. Contributions and issues are welcome!\n",
+  "wordCount" : "399",
+  "inLanguage": "en",
+  "datePublished": "2026-08-15T18:00:00+02:00",
+  "dateModified": "2026-08-15T18:00:00+02:00",
+  "author":{
+    "@type": "Person",
+    "name": "Sven"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/hashmapr/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Sven Glinz",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Sven Glinz (Alt + H)">Sven Glinz</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/cv/" title="CV">
+                    <span>CV</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      hashmapR - A fast hashmap for R
+    </h1>
+    <div class="post-description">
+      A fast, vectorized hashmap implementation for R
+    </div>
+    <div class="post-meta">
+
+<span title='2026-08-15 18:00:00 +0200 CEST'>August 15, 2026</span>&nbsp;·&nbsp;<span>2 min</span>&nbsp;·&nbsp;<span>399 words</span>&nbsp;·&nbsp;<span>Sven</span>
+
+</div>
+  </header> <details class="toc" >
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#background" aria-label="Background">Background</a></li>
+            <li>
+                <a href="#why-another-hashmap" aria-label="Why Another Hashmap?">Why Another Hashmap?</a></li>
+            <li>
+                <a href="#how-it-works" aria-label="How It Works">How It Works</a></li>
+            <li>
+                <a href="#implementation" aria-label="Implementation">Implementation</a></li>
+            <li>
+                <a href="#key-features" aria-label="Key Features">Key Features</a></li>
+            <li>
+                <a href="#getting-started" aria-label="Getting Started">Getting Started</a></li>
+            <li>
+                <a href="#benchmarks" aria-label="Benchmarks">Benchmarks</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><h2 id="background">Background<a hidden class="anchor" aria-hidden="true" href="#background">#</a></h2>
+<p>R was the first programming language I learned while studying Economics, and it&rsquo;s what originally drew me closer to Computer Science. When I worked as a Data Analyst, I encountered a painstakingly slow piece of code that desperately needed efficient, vectorized key-value lookups. R has plenty of vectorized functions, but I could not find a fast, vectorized hashmap.</p>
+<p>This led to <strong>hashmapR</strong>, a flexible, vectorized hashmap implemented in C++.</p>
+<h2 id="why-another-hashmap">Why Another Hashmap?<a hidden class="anchor" aria-hidden="true" href="#why-another-hashmap">#</a></h2>
+<p>Technically R already has some form of a hashmap (environments) but they come with significant drawbacks:</p>
+<ul>
+<li><strong>String-only keys</strong>: Environments only accept string keys, and each string is interned into the global symbol table permanently. Managing multiple large maps can quickly fill up memory.</li>
+<li><strong>Poor bulk operation performance</strong>: Vectorized operations in existing solutions often devolve into R loops calling C functions repeatedly — the overhead kills performance at scale.</li>
+</ul>
+<p><strong>hashmapR</strong> addresses both:</p>
+<ul>
+<li><strong>Flexible keys and values</strong>: Any serializable R object works as a key or value</li>
+<li><strong>True vectorization</strong>: Bulk operations execute natively in C++, completely bypassing R&rsquo;s interpreter</li>
+</ul>
+<h2 id="how-it-works">How It Works<a hidden class="anchor" aria-hidden="true" href="#how-it-works">#</a></h2>
+<h2 id="implementation">Implementation<a hidden class="anchor" aria-hidden="true" href="#implementation">#</a></h2>
+<p>hashmapR wraps a C++ <code>std::unordered_map</code>. Each key and value is stored in a growable R list, preventing premature garbage collection.</p>
+<p>Hashing is type-aware:</p>
+<ul>
+<li><strong>Primitives</strong> (strings, integers, floats) are extracted and hashed directly via <code>std::hash</code></li>
+<li><strong>Complex objects</strong> are serialized to bytes, then hashed</li>
+</ul>
+<p>This flexibility means you can use virtually any R object as a key. The real performance win comes from <strong>native vectorization</strong> — bulk operations execute entirely in C++, bypassing R&rsquo;s interpreter overhead completely.</p>
+<p>R&rsquo;s copy-on-write semantics mean inserted objects aren&rsquo;t deep-copied: only references are stored. This is worth remembering if you store non-COW objects.</p>
+<h2 id="key-features">Key Features<a hidden class="anchor" aria-hidden="true" href="#key-features">#</a></h2>
+<ul>
+<li><strong>Type Flexibility</strong>: Use any serializable R object as a key or value</li>
+<li><strong>Serialization</strong>: Save and restore maps easily:
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">saveRDS</span><span class="p">(</span><span class="n">map</span><span class="o">$</span><span class="nf">to_list</span><span class="p">(),</span> <span class="s">&#34;my_map.rds&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">map_restored</span> <span class="o">&lt;-</span> <span class="nf">hashmap</span><span class="p">()</span><span class="o">$</span><span class="nf">from_list</span><span class="p">(</span><span class="nf">readRDS</span><span class="p">(</span><span class="s">&#34;my_map.rds&#34;</span><span class="p">))</span>
+</span></span></code></pre></div></li>
+<li><strong>Utility Operations</strong>: Invert, query size, clear, clone, and more</li>
+</ul>
+<h2 id="getting-started">Getting Started<a hidden class="anchor" aria-hidden="true" href="#getting-started">#</a></h2>
+<p>Install from CRAN:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">install.packages</span><span class="p">(</span><span class="s">&#34;hashmapR&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><p>Or the development version:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">devtools</span><span class="o">::</span><span class="nf">install_github</span><span class="p">(</span><span class="s">&#34;svensglinz/hashmapR&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><p>Usage is straightforward:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">hashmapR</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create and populate a hashmap</span>
+</span></span><span class="line"><span class="cl"><span class="n">map</span> <span class="o">&lt;-</span> <span class="nf">hashmap</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">map[</span><span class="s">&#34;user_1&#34;</span><span class="n">]</span> <span class="o">&lt;-</span> <span class="s">&#34;Alice&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">map[</span><span class="s">&#34;user_2&#34;</span><span class="n">]</span> <span class="o">&lt;-</span> <span class="s">&#34;Bob&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Single lookup</span>
+</span></span><span class="line"><span class="cl"><span class="n">map[</span><span class="s">&#34;user_1&#34;</span><span class="n">]</span>  <span class="c1"># &#34;Alice&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Vectorized bulk operations</span>
+</span></span><span class="line"><span class="cl"><span class="n">map</span><span class="o">$</span><span class="nf">set</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="s">&#34;user_1&#34;</span><span class="p">,</span> <span class="s">&#34;user_2&#34;</span><span class="p">),</span> <span class="nf">list</span><span class="p">(</span><span class="s">&#34;Alice&#34;</span><span class="p">,</span> <span class="s">&#34;Bob&#34;</span><span class="p">),</span> <span class="n">vectorize</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">map</span><span class="o">$</span><span class="nf">get</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="s">&#34;user_1&#34;</span><span class="p">,</span> <span class="s">&#34;user_2&#34;</span><span class="p">),</span> <span class="n">vectorize</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Utility functions </span>
+</span></span><span class="line"><span class="cl"><span class="n">map</span><span class="o">$</span><span class="nf">contains</span><span class="p">(</span><span class="s">&#34;user_1&#34;</span><span class="p">)</span> <span class="c1"># TRUE</span>
+</span></span><span class="line"><span class="cl"><span class="n">map</span><span class="o">$</span><span class="nf">size</span><span class="p">()</span> <span class="c1"># 2</span>
+</span></span><span class="line"><span class="cl"><span class="n">map</span><span class="o">$</span><span class="nf">clear</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># create a new, inverted map, [A -&gt; C, B -&gt; C ] ==&gt; [C -&gt; list(A, B)]</span>
+</span></span><span class="line"><span class="cl"><span class="n">map</span><span class="o">$</span><span class="nf">invert</span><span class="p">(</span><span class="n">duplicates</span> <span class="o">=</span> <span class="s">&#34;stack&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><h2 id="benchmarks">Benchmarks<a hidden class="anchor" aria-hidden="true" href="#benchmarks">#</a></h2>
+<p>Coming Soon</p>
+<hr>
+<p><em>hashmapR is available on <a href="https://cran.r-project.org/package=hashmapR">CRAN</a> and on <a href="https://github.com/svensglinz/hashmapR">GitHub</a>. Contributions and issues are welcome!</em></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">Sven Glinz</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

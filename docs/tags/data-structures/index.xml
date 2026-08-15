@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Data-Structures on Sven Glinz</title>
+    <link>http://localhost:1313/tags/data-structures/</link>
+    <description>Recent content in Data-Structures on Sven Glinz</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 15 Aug 2026 18:00:00 +0200</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/data-structures/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Fast Maps for R</title>
+      <link>http://localhost:1313/posts/hashmap-r/</link>
+      <pubDate>Sat, 15 Aug 2026 18:00:00 +0200</pubDate>
+      <guid>http://localhost:1313/posts/hashmap-r/</guid>
+      <description>HashmapR - A fast, vectorized hashmap implementation for R</description>
+    </item>
+  </channel>
+</rss>

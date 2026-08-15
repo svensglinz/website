@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://svenglinz.ch/posts/hashmap-r/</loc>
+    <lastmod>2026-08-15T18:00:00+02:00</lastmod>
+  </url><url>
+    <loc>https://svenglinz.ch/posts/</loc>
+    <lastmod>2026-08-15T18:00:00+02:00</lastmod>
+  </url><url>
+    <loc>https://svenglinz.ch/</loc>
+    <lastmod>2026-08-15T18:00:00+02:00</lastmod>
+  </url><url>
+    <loc>https://svenglinz.ch/cv/</loc>
+    <lastmod>2026-08-03T09:00:00+02:00</lastmod>
+  </url><url>
+    <loc>https://svenglinz.ch/categories/</loc>
+  </url><url>
+    <loc>https://svenglinz.ch/resources/</loc>
+  </url><url>
+    <loc>https://svenglinz.ch/tags/</loc>
+  </url>
+</urlset>

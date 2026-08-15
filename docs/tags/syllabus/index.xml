@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Syllabus on Sven Glinz</title>
+    <link>http://localhost:1313/tags/syllabus/</link>
+    <description>Recent content in Syllabus on Sven Glinz</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 03 Aug 2026 09:00:00 +0200</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/syllabus/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Course Syllabus</title>
+      <link>http://localhost:1313/resources/syllabus/</link>
+      <pubDate>Mon, 03 Aug 2026 09:00:00 +0200</pubDate>
+      <guid>http://localhost:1313/resources/syllabus/</guid>
+      <description>&lt;p&gt;Overview of the course: topics, schedule, grading, and office hours.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Course&lt;/strong&gt;: (course name / code)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Semester&lt;/strong&gt;: (e.g. Fall 2026)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Office hours&lt;/strong&gt;: (day/time, location or link)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Contact&lt;/strong&gt;: &lt;a href=&#34;mailto:tina.cvitanic95@gmail.com&#34;&gt;tina.cvitanic95@gmail.com&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;schedule&#34;&gt;Schedule&lt;/h2&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;Week&lt;/th&gt;
+					&lt;th&gt;Topic&lt;/th&gt;
+					&lt;th&gt;Material&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;1&lt;/td&gt;
+					&lt;td&gt;Intro&lt;/td&gt;
+					&lt;td&gt;&lt;a href=&#34;http://localhost:1313/resources/week-01/&#34;&gt;Week 1 slides&lt;/a&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;2&lt;/td&gt;
+					&lt;td&gt;&amp;hellip;&lt;/td&gt;
+					&lt;td&gt;&lt;a href=&#34;http://localhost:1313/resources/week-02/&#34;&gt;Week 2 exercises&lt;/a&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;</description>
+    </item>
+  </channel>
+</rss>

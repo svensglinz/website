@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Week-02 on Sven Glinz</title>
+    <link>http://localhost:1313/tags/week-02/</link>
+    <description>Recent content in Week-02 on Sven Glinz</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 04 Aug 2026 09:00:00 +0200</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/week-02/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Week 02 — Exercises</title>
+      <link>http://localhost:1313/resources/week-02/</link>
+      <pubDate>Tue, 04 Aug 2026 09:00:00 +0200</pubDate>
+      <guid>http://localhost:1313/resources/week-02/</guid>
+      <description>&lt;p&gt;Slides and exercises for week 2.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;📑 Slides: (link to PDF/slides)&lt;/li&gt;
+&lt;li&gt;📝 Exercise sheet: (link)&lt;/li&gt;
+&lt;li&gt;✅ Solutions: (link, released after due date)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;notes&#34;&gt;Notes&lt;/h2&gt;
+&lt;p&gt;(Key points covered in the session, reading material, or prerequisites.)&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
