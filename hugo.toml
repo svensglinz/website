@@ -67,5 +67,11 @@ In my free time, you can find me hacking on my Raspberry Pi cluster, which serve
   url = '/posts/'
   weight = 10
 
+[[menu.main]]
+  identifier = 'teaching'
+  name = 'Teaching'
+  url = '/teaching/'
+  weight = 15
+
 
 
