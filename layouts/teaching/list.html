@@ -1,5 +1,6 @@
 {{- define "main" }}
 
+<div class="teaching-page">
 <header class="page-header">
   {{- partial "breadcrumbs.html" . }}
   <h1>{{ .Title }}</h1>
@@ -17,10 +18,19 @@
 {{- end }}
 
 {{- if eq .RelPermalink "/teaching/" }}
-<nav aria-label="Teaching sections">
-  <ul>
-    {{- range .Sections.ByTitle }}
-    <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+<nav class="teaching-courses" aria-label="Teaching sections">
+  <ul class="teaching-course-grid">
+    {{- range $index, $section := .Sections.ByTitle }}
+    <li>
+      <a class="teaching-course-card" href="{{ $section.RelPermalink }}">
+        <span class="teaching-course-index" aria-hidden="true">{{ printf "%02d" (add $index 1) }}</span>
+        <span class="teaching-course-copy">
+          <span class="teaching-course-title">{{ $section.Title }}</span>
+          <span class="teaching-course-description">{{ $section.Content | plainify | truncate 120 }}</span>
+          <span class="teaching-course-meta">{{ len $section.RegularPages }} materials <span aria-hidden="true">&#8594;</span></span>
+        </span>
+      </a>
+    </li>
     {{- end }}
   </ul>
 </nav>
@@ -35,4 +45,5 @@
 {{- end }}
 {{- end }}
 
+</div>
 {{- end }}
