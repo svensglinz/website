@@ -1,5 +1,5 @@
 ---
-title: System Programming
+title: Computer Systems
 ---
 
-Course information and teaching materials for System Programming.
+Course information and teaching materials for Computer Systems.

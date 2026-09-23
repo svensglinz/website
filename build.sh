@@ -1,5 +1,3 @@
-#! /bin/bash
+#!/bin/bash
 
-hugo build
-mkdir -p docs
-cp -r public/* docs/
+hugo build --gc --minify
