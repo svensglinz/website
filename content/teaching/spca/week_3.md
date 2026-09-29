@@ -96,3 +96,78 @@ And if you check the address that your program printed, you will see that it liv
 Now you know with absolute certainty that trying to modify your string will crash your program, as you do not have permission to write to the memory where the string lives.
 
 
+## Files and IO in C - Some interesting stuff
+
+As you saw in the lecture, the easiest way to work with IO is to make use of the many helpers in `libc` such as `fopen` which returns a handle to the opened file to you in the form of a `struct FILE *`.
+
+We can now read, write, ... to this file given the pointer to the FILE we received.
+
+One thing that you should keep in the back of your mind is that by default, writes to the file are buffered. This means that when you *think* that you wrote something to a file, internally, the function you called writes this into a buffer and tells you *I'm done*. 
+
+Only if you write a newline or the buffer is exhausted your program actually tells the OS that it should please write your stuff to the actual file (at which point it may be buffered again in the kernel, but that is another story --> Take Computer Systems if you want to know more about this)
+
+Let's look at the following program. Note that `stdout`, `stdin`, `stderr` in C are nothing else than `FILE` pointers.
+
+If you don't know anything about the default buffering behavior, this may drive you to insanity, as your print will not appear when you would like it to, but only just before the program exits (i.e. after the sleep).
+
+```c
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    fprintf(stdout, "hello from main");
+    sleep(10);
+    exit(0);
+}
+```
+
+If you had instead typed `fprintf(stdout, "hello from  main\n")`, this would have been printed immediately, as by default, writes are propagated after any newline. 
+
+If you want to change the default buffering behavior, take a look at the below man pages for some ways to achieve this. 
+
+```shell
+man 3 setbuf
+man 3 fflush
+```
+
+## Digression: The final breath of your C Program
+
+In the above snippet, we saw that on exit, your print command will still print. But how does `fprintf`
+know when your program exits so that it can do a final flush of the buffer, since you were (possibly?) told in the lecture that `main` is where your program starts running ? 
+
+Well, this is because that is not entirely true. The first instructions that your program executes eventually call something like `__libc_start_main(pointer_to_your_main_function)`.
+
+`__libc_start_main` serves as a kind of `trampoline` and will do something roughly like this
+
+```c
+void __libc_start_main(MAIN_FUNC* main) {
+    int return_value = main(); // call your "actual" main function
+    run_cleanup_handlers();
+    exit(return_value); // syscall to the OS, telling it that we are done!
+}
+```
+
+Somewhere in `libc`, you have a static pointer to an array of function pointers to `exit handlers`. These are funtions that the runtime will automatically call for you before your program exits. 
+
+Take a look at
+
+```shell
+man on_exit
+man atexit
+```
+
+to see how you can register these.
+Now you may see how when you run `fopen`, this function could potentially register one of these exit handlers that ensures that it's buffer is automatically flushed at exit of your program. 
+
+
+Note: If for some reason yo want to *prevent* the exit handlers from being ran, take a look at `_exit`
+and your print will never show up :) 
+
+```c
+int main() {
+    fprintf(stdout, "hello from  main");
+    sleep(10);
+    _exit(0);
+}
+```
